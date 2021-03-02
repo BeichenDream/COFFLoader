@@ -145,7 +145,11 @@ void* process_symbol(char* symbolstring) {
         DEBUG_PRINT("\t\tFunction: %s\n", localfunc);
         /* Resolve the symbols here, and set the functionpointervalue */
 #if defined(_WIN32)
-        llHandle = LoadLibrary(locallib);
+        size_t mallocSize= strlen(locallib) * sizeof(WCHAR);
+        WCHAR* wlocallib = malloc(mallocSize);
+        memset(wlocallib, 0, mallocSize);
+        MultiByteToWideChar(CP_ACP, 0, locallib, strlen(locallib) + 1, wlocallib, mallocSize);
+        llHandle = LoadLibrary(wlocallib);
         DEBUG_PRINT("\t\tHandle: 0x%lx\n", llHandle);
         functionaddress = GetProcAddress(llHandle, localfunc);
         DEBUG_PRINT("\t\tProcAddress: 0x%p\n", functionaddress);
