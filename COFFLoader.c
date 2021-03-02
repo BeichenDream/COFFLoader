@@ -149,7 +149,7 @@ void* process_symbol(char* symbolstring) {
         WCHAR* wlocallib = malloc(mallocSize);
         memset(wlocallib, 0, mallocSize);
         MultiByteToWideChar(CP_ACP, 0, locallib, strlen(locallib) + 1, wlocallib, mallocSize);
-        llHandle = LoadLibrary(wlocallib);
+        llHandle = LoadLibraryW(wlocallib);
         DEBUG_PRINT("\t\tHandle: 0x%lx\n", llHandle);
         functionaddress = GetProcAddress(llHandle, localfunc);
         DEBUG_PRINT("\t\tProcAddress: 0x%p\n", functionaddress);
